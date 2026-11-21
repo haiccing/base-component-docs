@@ -22,6 +22,7 @@ here.
 - [base-package-runtime](../base-package-runtime/)
 - [base-package-protocol](../base-package-protocol/)
 - [base-package-info](../base-package-info/)
+- [base-package-help](../base-package-help/)
 - [base-docs-haicc](../base-docs-haicc/)
 - [base-docs-hdlc](../base-docs-hdlc/)
 - [base-docs-package](../base-docs-package/)
@@ -59,14 +60,13 @@ The how-tos are each package's, below its keyword: `<keyword> howto`,
 then a how-to's name. `boot howto` (the boot, a deploy, the docs mrepo,
 the registry), `haicc howto` (a hop, a script, a cluster), `splectral
 howto`, and `package howto`: making a package of your own, a how-to a
-pattern (written in the development repository: `package howto
-package`).
+pattern (written where packages are built: `package howto package`).
 
 ## Deploying
 
 By the boot mrepo, with a command at the root: it is not deployed with
 the boot, you deploy it. No service: its boot hooks activate `info` and
-extract it.
+`help`, and extract the info.
 
 ```
 haicc . boot/deploy docs haiccing/base-component-docs

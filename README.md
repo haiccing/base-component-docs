@@ -3,8 +3,8 @@
 The docs component: the docs mrepo, the platform's documentation, deployed in the boot mrepo and read with info.
 
 The docs mrepo holds the documentation packages and the `info` protocol,
-and documents every other package the sources offer: the install's
-manual. It is deployed in the boot mrepo, at `docs`, by one command
+and documents every package in the install's store: the install's
+manual, split on package. It is deployed in the boot mrepo, at `docs`, by one command
 (below, "Deploying"): not with the boot; its runtime extracts its pages
 as it starts. Every other mrepo
 answers about itself, what is deployed in it; the whole platform is read
@@ -23,6 +23,9 @@ here.
 - [base-package-protocol](../base-package-protocol/)
 - [base-package-info](../base-package-info/)
 - [base-package-help](../base-package-help/)
+- [base-package-crud](../base-package-crud/)
+- [base-package-haici](../base-package-haici/)
+- [base-package-service](../base-package-service/)
 - [base-docs-haicc](../base-docs-haicc/)
 - [base-docs-hdlc](../base-docs-hdlc/)
 - [base-docs-package](../base-docs-package/)
@@ -32,11 +35,38 @@ here.
 
 ## Documented
 
-Beyond its list, `"documents": "sources"`: every package the sources
-offer, placed as documentation only (its bundle; nothing laid in, nothing
-run), each at its keyword below the top: `haicc docs info/get boot`.
-What is installed is what is documented; later the solution's list
-names them.
+Beyond its list, `"documents": "store"`: every package in the install's
+store, `<work>/packages/`, reached through its packages manifest's
+mapping and read only: nothing of them placed in it, nothing run. What
+is installed is what is documented.
+
+- **Built at `initialise`** (`info/extract`), split on package: each
+  package's pages and keywords its own, below its organisation.
+- **`initialise` again** adds what is new in the store, changes nothing
+  else.
+- **`shutdown` removes the build** (`info/clear`); `initialise` builds
+  it again, from scratch.
+
+Read in a package's context, its name in front, or by a short keyword,
+a choice of the packages that have it:
+
+```
+haicc docs info/get haiccing
+haicc docs info/get haiccing/base-package-boot/deploy
+haicc docs info/get deploy
+```
+
+## Feedback
+
+Feedback on the documentation is given where it is read: `haici` is
+active, so a command's feedback is recorded in the docs mrepo's own
+request log, the command with its own URI, not run; `crud` reads it
+back there:
+
+```
+haicc docs info/get haiccing/base-docs-hdlc/validation --flags feedback "unclear: which state holds a request?"
+haicc docs crud/read "done/*[value/value/protocol='haici']" --flags layer=request
+```
 
 ## Log
 
@@ -52,26 +82,36 @@ haicc host crud/read "done/*" --flags layer=request
 haicc host crud/read "done/*[value/value/protocol='crud']" --flags layer=request
 ```
 
-The levels and the entries: `package mrepo request`.
+The levels and the entries: `haiccing/base-docs-package/mrepo/request`.
 
 ## Howto
 
-The how-tos are each package's, below its keyword: `<keyword> howto`,
-then a how-to's name. `boot howto` (the boot, a deploy, the docs mrepo,
-the registry), `haicc howto` (a hop, a script, a cluster), `splectral
-howto`, and `package howto`: making a package of your own, a how-to a
-pattern (written where packages are built: `package howto package`).
+The how-tos are each package's, in its context: `<package>/howto`, then
+a how-to's name, or `howto` alone, a choice of the packages that have
+them. `base-component-boot/howto` (the boot, a deploy, the docs mrepo,
+the registry, `mrepos/`), `base-package-haicc/howto` (a hop, a script, a
+cluster), `base-package-splectral/howto`, and `base-docs-package/howto`:
+making a package of your own, a how-to a pattern (written where
+packages are built: `base-docs-package/howto/package`).
 
 ## Deploying
 
-By the boot mrepo, with a command at the root: it is not deployed with
-the boot, you deploy it. No service: its boot hooks activate `info` and
-`help`, and extract the info.
+Its name is fixed in the base family: `docs`, its unique URI
+`local/docs`, one an install; the help viewer finds it by it wherever
+it is deployed (`haicc . haicc/mrepos local/docs`). By the boot mrepo,
+or the workbench (`workbench/docs`), with a command:
+it is not deployed with the boot, you deploy it. A service like every
+mrepo: its boot hooks activate `crud`, `haici`, `help`, `info`,
+`runtime` and `service`;
+its `commission`, run as its runtime starts, initialises it (its info
+built, by its `initialise` hook) and starts it before the deploy
+answers; its `shutdown` hook removes the build.
 
 ```
 haicc . boot/deploy docs haiccing/base-component-docs
 haicc docs info/get
-haicc docs info/get hdlc
+haicc docs info/get haiccing
+haicc docs info/get haiccing/base-docs-hdlc
 ```
 
 ## Its files

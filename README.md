@@ -31,6 +31,7 @@ here.
 - [base-docs-package](../base-docs-package/)
 - [base-docs-uri](../base-docs-uri/)
 - [base-docs-xpath](../base-docs-xpath/)
+- [base-docs-avro](../base-docs-avro/)
 - [base-docs-vision](../base-docs-vision/)
 
 ## Documented

@@ -35,6 +35,7 @@ const LIST = [
   'haiccing/base-docs-package',
   'haiccing/base-docs-uri',
   'haiccing/base-docs-xpath',
+  'haiccing/base-docs-avro',
   'haiccing/base-docs-vision',
   'haiccing/base-component-docs'
 ]
